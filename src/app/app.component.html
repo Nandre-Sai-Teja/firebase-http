@@ -37,7 +37,10 @@
           <tr *ngIf="allProducts.length < 1 && !isFetching">  <!-- no products available only when data is not fetching from the db -->
             <td colspan="5" >No Products Available!</td>
           </tr>
-          <tr *ngIf="isFetching">  <!-- dispaly loading when the data is being fetched from the db -->
+          <tr *ngIf="errorMessage"> <!-- errorMessage != null, only not equal to nuyll, but by this it will be typecoerced to true-->
+            <td colspan="5" >{{errorMessage}}</td>
+          </tr>
+           <tr *ngIf="isFetching && !errorMessage">   <!--if we use errorMessage == null then only when the err msg is null it will show loadin, but by using this it includes other paramters like empty string,null or undefined-->
             <td colspan="5" >Loading...</td>
           </tr>
           <tr *ngFor = "let prod of allProducts; index as i">

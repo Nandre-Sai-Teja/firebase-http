@@ -34,6 +34,8 @@ export class AppComponent implements OnInit {
 
   currentProductId: string;
 
+  errorMessage: string = null;
+
   @ViewChild('productsForm') form: NgForm
 
   ngOnInit(){ //a decorator, this will assign form with local reference variable (productsForm) to form (form) property
@@ -88,8 +90,24 @@ export class AppComponent implements OnInit {
     this.productService.fetchProduct().subscribe((products) => { //products is the response that we will get
       this.allProducts = products;
       this.isFetching = false;
-    })
+    }, (err) => { //2nd callback function for error handling
+      this.errorMessage = err.message; 
+    } )
   }
+
+  //in the latest version of RxJS, subscribe has 3 properties --> next, error, complete
+
+  // private fetchProducts(){
+  //   this.productService.fetchProduct().subscribe({
+  //     next: (products) => {
+  //       this.allProducts = products;
+  //       this.isFetching = false;
+  //     },
+  //     error: (err) => {
+  //       this.errorMessage = err.message; // err (error) has a property i.e, message
+  //     }
+  //   });    
+  // }
 
   // onDeleteProduct(id: string){
   //   this.http.delete('https://project-1-29cec-default-rtdb.firebaseio.com/products/'+id+'.json') //delete has 1 or only mandatory argument, the url is form the firebase url of that specific product url
